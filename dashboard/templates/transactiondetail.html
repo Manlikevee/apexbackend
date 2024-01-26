@@ -1,0 +1,131 @@
+{% extends 'dbbase.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+            <main>
+                <div class=" dashcontainer">
+
+                  <div class="usersname">
+                    <h4>     TRANSACTION REPORT  For  {{j.reference}}</h4>
+                  </div>
+
+                   {%if j.type == 'credit'%}
+
+                  <div class="pendingtalk green" data-aos="fade-left">
+    <i class="fa-solid fa-circle-exclamation fa-beat"></i>
+
+
+Congratulations! The status of this transaction is now complete. We are pleased to inform you that a credit has been successfully added to your account. Thank you for choosing our finance application and for entrusting us with your transaction. We appreciate your business and look forward to serving you again in the future. If you have any questions or need further assistance, please don't hesitate to contact our dedicated customer support team.
+                  </div>
+        {%else%}
+{%if pending%}
+      <div class="pendingtalk green" data-aos="fade-left">
+    <i class="fa-solid fa-circle-exclamation fa-beat"></i>
+          Congratulations! The status of this transaction is now complete. We are pleased to inform you that your request has been successfully processed and the transaction has been finalized. Thank you for choosing our finance application and for entrusting us with your transaction. We appreciate your business and look forward to serving you again in the future.
+
+
+  </div>
+
+{%else%}
+  <div class="pendingtalk" data-aos="fade-top">
+    <i class="fa-solid fa-circle-exclamation fa-beat"></i>    The status of this transaction is still pending. Our team is diligently working to process your request and ensure a smooth completion. We appreciate your patience during this time. Rest assured, we are actively monitoring the progress and will notify you as soon as the transaction is finalized. Thank you for choosing our finance application and for your understanding.
+  </div>
+    {%endif%}
+{% endif %}
+
+            <br>
+                  <div class="planboxs">
+                    <div class="plangrid pgridtp">
+                      <div class="planbox">
+                        <div class="plantitle gridloantitle card-title"> Transaction Reference</div>
+                        <div class="plandetail gridloancontent card-subtitle">   {{j.reference}}</div>
+                      </div>
+
+                        <div class="planbox">
+                        <div class="plantitle gridloantitle card-title">Transaction Date</div>
+                        <div class="plandetail gridloancontent card-subtitle"> {{j.updated_at|date:"F d Y" }}</div>
+                      </div>
+                    </div>
+                    <div class="planlines"></div>
+                    <div class="plangrid">
+                      <div class="planbox">
+                        <div class="plantitle gridloantitle card-title"> Account Name</div>
+                        <div class="plandetail gridloancontent card-subtitle">
+                                  {%if j.bankdetails.data.accountname%}
+      {{j.bankdetails.data.accountname}}
+      {%else%}
+      {{request.user.get_full_name}}
+      {%endif%}
+                        </div>
+                      </div>
+                      <div class="planbox">
+                        <div class="plantitle gridloantitle card-title"> Account Number</div>
+                        <div class="plandetail gridloancontent card-subtitle">
+                                   {%if j.bankdetails.data.accountnumber%}
+      {{j.bankdetails.data.accountnumber}}
+      {%else%}
+ 0129383746
+      {%endif%}
+                        </div>
+                      </div>
+                      <div class="planbox">
+                        <div class="plantitle gridloantitle card-title"> Bank Name</div>
+                        <div class="plandetail gridloancontent card-subtitle">
+                                       {%if j.bankdetails.data.bank%}
+      {{j.bankdetails.data.bank}}
+      {%else%}
+      Apex Co
+      {%endif%}
+                        </div>
+                      </div>
+
+
+                      <div class="planbox">
+                        <div class="plantitle gridloantitle card-title">  Amount</div>
+                        <div class="plandetail gridloancontent card-subtitle">  {{j.amount|intcomma}}</div>
+                      </div>
+                      <div class="planbox">
+                        <div class="plantitle gridloantitle card-title"> Status</div>
+                        <div class="plandetail gridloancontent card-subtitle">   {%if j.type == 'credit'%}
+        Successful
+        {%else%}
+          {%if pending %}
+
+         Successful
+    {%else %}
+
+
+        pending
+        {%endif%}
+
+        {% endif %} </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+
+
+
+            <div class="daysleft">
+              <div class="daysflex">
+                <div class="left">Days Left</div>
+                <div class="right">40 days</div>
+              </div>
+              <div class="progress-container">
+                <progress id="progress" value="120" max="360"></progress>
+              </div>
+            </div>
+                <br>
+
+
+
+
+
+
+                          </div>
+              </main>
+
+{% endblock %}

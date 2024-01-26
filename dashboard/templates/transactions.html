@@ -1,0 +1,158 @@
+{% extends 'dbbase.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<div class="usersname">
+  <h4> Welcome Oluwatosin</h4>
+</div>
+
+<div class="dashboardcard" >
+    <div class="dashcard" id="step1Target">
+        <div class="dashcardheader">
+           <div class="dashamount">
+            Loan Amount
+           </div>
+           <div class="dashtoggle"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 3.25C8.41421 3.25 8.75 2.91421 8.75 2.5C8.75 2.08579 8.41421 1.75 8 1.75C7.58579 1.75 7.25 2.08579 7.25 2.5C7.25 2.91421 7.58579 3.25 8 3.25Z" stroke="#6D201B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 8.75C8.41421 8.75 8.75 8.41421 8.75 8C8.75 7.58579 8.41421 7.25 8 7.25C7.58579 7.25 7.25 7.58579 7.25 8C7.25 8.41421 7.58579 8.75 8 8.75Z" stroke="#6D201B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 14.25C8.41421 14.25 8.75 13.9142 8.75 13.5C8.75 13.0858 8.41421 12.75 8 12.75C7.58579 12.75 7.25 13.0858 7.25 13.5C7.25 13.9142 7.58579 14.25 8 14.25Z" stroke="#6D201B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg></div>
+        </div>
+
+        <div class="dashvalue">
+            <h3>200,000.00</h3>
+        </div>
+
+        <div class="dashfooter">
+            <div class="numberofloans">Active Loans</div>
+            <div class="totalnum">23</div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="loanrequests" id="step2Target">
+    <div class="loanrequestheader">
+        <div class="loanrequesttitle">
+           <h4> Loan Requests </h4>
+        </div>
+        <div class="loanrequestbutton">
+             <button>New Loan +</button>
+        </div>
+    </div>
+</div>
+
+<div class="loantablediv" id="step3Target">
+    <div class="loandiv">
+        <div class="loantype loandef">Loan Type</div>
+        <div class="loantype loandef def2">Reference</div>
+        <div class="loanamount loandef def3">Amount</div>
+        <div class="loanstatus loandef def4">Status</div>
+        <div class="loanaction loandef loanend">Action</div>
+    </div>
+    <div class="mustscroll">
+        <div class="loandiv loandivdata" onclick="openModal(1)">
+            <div class="loantype loandef">Term Loan</div>
+            <div class="loantype loandef def2">dnnxnu373hns</div>
+            <div class="loanamount loandef def3">N900,000</div>
+            <div class="loanstatus loandef def4"><div class="spa"></div> Pending Approval</div>
+            <div class="loanaction loandef loanend">View</div>
+        </div>
+
+
+
+
+    </div>
+
+    </div>
+
+
+
+
+
+<div class="modal" id="myModal">
+    <div class="modal-content">
+    <div class="loandatadiv">
+      <div class="loaninfo">
+        <span class="close" onclick="closeModal()">&times;</span>
+          <div class="loanrequesttitles">
+              <h4> Loan Information </h4>
+           </div>
+
+           <div class="loanstatusbox">
+           <div class="usersname">
+            Oluwatosin Ajayi
+           </div>
+          <div class="vie">
+       <div class="status">
+        Status
+       </div>     <div>Pending Approval</div>
+          </div>
+
+
+      </div>
+
+
+      <div class="loangrid">
+        <div class="loangriditem">
+          <div class="gridloantitle card-title">Reference </div>
+          <div class="gridloancontent card-subtitle" id="ref">2211291827278</div>
+
+        </div>
+        <div class="loangriditem">
+          <div class="gridloantitle card-title">Amount</div>
+          <div class="gridloancontent card-subtitle">N900, 000</div>
+
+        </div>
+        <div class="loangriditem">
+          <div class="gridloantitle card-title">Interest Amount</div>
+          <div class="gridloancontent card-subtitle">N90, 000</div>
+
+        </div>
+        <div class="loangriditem">
+          <div class="gridloantitle card-title">Total</div>
+          <div class="gridloancontent card-subtitle"> N975,000</div>
+
+        </div>
+      </div>
+
+
+      <div class="nextbutton">
+
+        <a href="loandetail.html">   <button> View More</button></a>
+      </div>
+
+
+
+    </div>
+  </div>
+  </div>
+</div>
+
+<script>
+    const modal = document.getElementById("myModal");
+    const modalContent = document.querySelector(".modal-content");
+
+    function openModal(modalNumber) {
+      modal.style.display = "flex";
+      // You can use the 'modalNumber' variable to do something specific for each modal
+      console.log("Modal number clicked:", modalNumber);
+      const re = document.getElementById('ref').innerHTML = modalNumber;
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    // Close the modal when clicking outside the modal content
+    window.addEventListener("click", function(event) {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    </script>
+
+{% endblock %}

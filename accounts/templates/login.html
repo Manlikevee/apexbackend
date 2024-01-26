@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<style>
+  .ini{
+    width: 100%;
+}
+
+.ini .fas {
+    position: relative;
+    right: -92%;
+    font-size: 15px;
+    top: -33px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+header{
+  display: none;
+}
+</style>
+<div class="logincontainer">
+    <div class="loginimg">
+<div class="mpawa">
+
+  <div class="mpawatext">Unlock financial freedom with our flexible options, competitive rates, and exceptional service. Empower your dreams through a seamless borrowing experience. Apply now and secure a brighter future with ApexCo.</div>
+</div>
+
+    </div>
+    <div class="logindata">
+<div class="loginform">
+  <img src="{% static 'Group 39810.png' %}" alt="">
+  <br>
+  <div class="logintitle">
+    Sign in to Explore Financial Opportunities
+  </div>
+<div class="loginsubtitle">
+  Securely sign in to manage your finances and stay in control of your transactions.
+</div>
+<form action="" method="POST" style="
+width:100%; height: 100%;">
+        {% csrf_token %}
+  <div class="inputboxes">
+    <div class="inputbox">
+
+      <label for="">Account Number</label>
+      <input type="text" name="username" id="id_username" placeholder="Enter Your Account Number">
+    </div>
+
+    <div class="inputbox">
+      <label for="Password">Password</label>
+      <div class="ini">
+        <input type="password" name="password" id="loginpass" placeholder="*****"> <i id="eyes"
+            onclick="eyefunclogin()" class="fas fa-solid fa-eye fa-eye-slash"
+            style="color: #0c3730;"></i>
+    </div>
+    </div>
+<small class="fgot">Forgot password?</small>
+    <div class="inputbox">
+      <button>Sign In</button>
+    </div>
+  </div>
+</form>
+</div>
+
+
+    </div>
+</div>
+<script>
+  function eyefunclogin(){
+  console.log('working')
+var passwordField = document.querySelector("#loginpass");
+var eye = document.getElementById("eyes").classList.toggle('fa-eye')
+if (passwordField.type === "password") {
+  passwordField.type = "text";
+} else {
+  passwordField.type = "password";
+}
+}
+</script>
+
+{% endblock %}

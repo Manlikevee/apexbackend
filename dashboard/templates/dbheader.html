@@ -1,0 +1,41 @@
+
+        {% load static %}
+        <header id="navbar" style="background-color: white;">
+            <div class="container" data-aos="fade-left">
+<!--                onclick="window.location.href = 'index.html'"-->
+                <div class="logo" >
+                   <img src="{% static 'Group 39810.png' %}" alt="" />  <div class="dv">Apex<span>Co</span></div>
+                </div>
+
+                <div class="links" id="middlelinks">
+                    <a href="{% url 'userdashboard' %}" class="activated">Dashboard</a>
+                    <a href="dashboard.html">Transactions</a>
+                    <a href="">Contact Us</a>
+
+                    <div class="hideme">
+                        <a href="login.html" class="blackboton"> Logout</a>
+
+                    </div>
+
+                </div>
+
+                <div class="login getstarteds" style="width: fit-content;" onclick="window.location.href = 'login.html'">
+                   Get Started
+                </div>
+
+                <div class="navtoggle" onclick="navtoggler()">
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+                </div>
+            </div>
+
+        </header>
+<br>
+<style>
+    body{
+        font-family: 'Poppins', sans-serif;
+        background: var(--cultured);
+    }
+  </style>

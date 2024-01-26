@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+      <link rel="stylesheet" href="{% static 'style.css' %}" />
+        <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,300,0,-25"
+    />
+</head>
+<body>
+
+        {%include 'header.html' %}
+    {%include 'popup.html' %}
+        {% block content %}
+
+
+        {% endblock %}
+
+<script>
+    window.addEventListener("load", function () {
+setTimeout(
+    function open(event) {
+        document.querySelector(".loading-over2").style.display = "block";
+    },
+    1000
+)
+})
+
+document.querySelector('#close2').addEventListener("click", function () {
+document.querySelector(".loading-over2").style.display = "none";
+});
+</script>
+
+       {%include 'footer.html' %}
+</body>
+
+
+
+</html>

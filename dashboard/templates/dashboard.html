@@ -1,0 +1,325 @@
+{% extends 'dbbase.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+           <article class="article">
+
+                <h2 class="h2 article-title">Hi {{request.user.get_full_name}}</h2>
+
+                <p class="article-subtitle">Welcome to Dashboard!</p>
+
+                <!--
+                  - #HOME
+                -->
+
+                <section class="home">
+
+
+                  <div class="card revenue-card">
+
+                    <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+                      <span class="material-symbols-outlined  icon">more_horiz</span>
+                    </button>
+
+                    <ul class="ctx-menu">
+
+                      <li class="ctx-item">
+                        <button class="ctx-menu-btn icon-box">
+                          <span class="material-symbols-outlined  icon" aria-hidden="true">edit</span>
+
+                          <span class="ctx-menu-text">Edit</span>
+                        </button>
+                      </li>
+
+                      <li class="ctx-item">
+                        <button class="ctx-menu-btn icon-box">
+                          <span class="material-symbols-outlined  icon" aria-hidden="true">cached</span>
+
+                          <span class="ctx-menu-text">Refresh</span>
+                        </button>
+                      </li>
+
+                    </ul>
+
+                    <p class="card-title">Account Balance</p>
+
+                    <data class="card-price" value="2100">$
+                          {% if dollarinvestments.amount__sum is None %}
+                            0.00
+                          {% else %}
+                          {{ dollarinvestments.amount__sum|floatformat:2|intcomma }}
+                          {% endif %}
+
+                    </data>
+
+                    <p class="card-text">Last Week</p>
+
+                    <div class="divider card-divider"></div>
+
+                    <ul class="progress-list">
+
+                      <li class="progress-item">
+
+                        <div class="progress-label">
+                          <p class="progress-title">Profile</p>
+
+                          <data class="progress-data" value="85">90%</data>
+                        </div>
+
+                        <div class="progress-bar">
+                          <div class="progress" style="width: 90%; background: var(--blue-ryb);"></div>
+                        </div>
+
+                      </li>
+
+                      <li class="progress-item">
+
+                        <div class="progress-label">
+                          <p class="progress-title">Credit Rating</p>
+
+                          <data class="progress-data" value="7.5">8.5</data>
+                        </div>
+
+                        <div class="progress-bar">
+                          <div class="progress" style="width: 99%; background: var(--coral);"></div>
+                        </div>
+
+                      </li>
+
+                    </ul>
+
+                  </div>
+                  <div class="card-wrapper">
+
+                    <div class="card task-card">
+
+                      <div class="card-icon icon-box green">
+                        <span class="material-symbols-outlined  icon">decimal_increase</span>
+                      </div>
+
+                      <div>
+                        <data class="card-data" value="21">{{incoming}}</data>
+
+                        <p class="card-text">Incomings</p>
+                      </div>
+
+                    </div>
+
+                    <div class="card task-card">
+
+                      <div class="card-icon icon-box blue">
+                        <span class="material-symbols-outlined  icon">decimal_decrease</span>
+                      </div>
+
+                      <div>
+                        <data class="card-data" value="21">{{outgoing}}</data>
+
+                        <p class="card-text">Outgoings</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div class="card profile-card">
+
+                    <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+                      <span class="material-symbols-outlined  icon">more_horiz</span>
+                    </button>
+
+                    <ul class="ctx-menu">
+
+                      <li class="ctx-item">
+                        <button class="ctx-menu-btn icon-box">
+                          <span class="material-symbols-outlined  icon" aria-hidden="true">edit</span>
+
+                          <span class="ctx-menu-text">Edit</span>
+                        </button>
+                      </li>
+
+                      <li class="ctx-item">
+                        <button class="ctx-menu-btn icon-box">
+                          <span class="material-symbols-outlined  icon" aria-hidden="true">cached</span>
+
+                          <span class="ctx-menu-text">Refresh</span>
+                        </button>
+                      </li>
+
+                      <li class="divider"></li>
+
+                      <li class="ctx-item">
+                        <button class="ctx-menu-btn red icon-box">
+                          <span class="material-symbols-outlined  icon" aria-hidden="true">delete</span>
+
+                          <span class="ctx-menu-text">Deactivate</span>
+                        </button>
+                      </li>
+
+                    </ul>
+
+                    <div class="profile-card-wrapper">
+
+                      <figure class="card-avatar">
+                        <img src="https://cellafinance.com/media/profile_photo/user.png" alt="Elizabeth Foster" width="48" height="48">
+                      </figure>
+
+
+
+                      <div>
+                        <p class="card-title">{{request.user.get_full_name}}</p>
+
+                        <p class="card-subtitle">Savings Account</p>
+                      </div>
+
+                    </div>
+
+                    <ul class="contact-list">
+
+                      <li>
+                        <a href="mailto:xyz@mail.com" class="contact-link icon-box">
+
+                          <span class="material-symbols-outlined icon">
+                            mail
+                            </span>
+                          <p class="text">{{request.user.email}}</p>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="tel:00123456789" class="contact-link icon-box">
+                          <span class="material-symbols-outlined  icon">call</span>
+
+                          <p class="text">+000 000 000</p>
+                        </a>
+                      </li>
+
+                    </ul>
+
+                    <div class="divider card-divider"></div>
+                    <ul class="revenue-list" style="gap: 15px; grid-template-columns: 1fr;">
+
+                      <style>
+
+                          .withdrawalbutton{
+               width: 100%;
+
+               background-color:hsl(144, 62%, 53%);
+               height: 100%;
+               padding: 10px;
+               text-align: center;
+               border-radius: 5px;
+               cursor: pointer;
+               color: black;
+
+               font-size: 17px;
+               font-family: inter;
+               font-weight: 500;
+               transition: 0.5s;
+              }
+
+              .withdrawalbutton:hover{
+                background-color:hsla(144, 85%, 49%, 0.455);
+              }
+
+
+              .pac{
+                background-color:var(--pacific-blue_12);
+                color: var(--pacific-blue);
+              }
+
+              .pac:hover{
+                background-color:var(--pacific-blue_12);
+                color: var(--pacific-blue);
+              }
+              </style>
+
+              <div class="withdrawalbutton pac" onclick="window.location.href = '{% url 'withdrawal' %}'">
+              Transfer
+              </div>
+
+              <!--<div class="withdrawalbutton pac" onclick="alert('This feature will be unavailable on your account until the validation of your submitted profile data is complete.')">-->
+              <!--  Transfer-->
+              <!--  </div>-->
+
+                        </ul>
+
+
+                  </div>
+
+                </section>
+
+
+
+              </article>
+
+          <br>
+
+            <article >
+                <div class="loanrequests " id="step2Target">
+                  <div class="loanrequestheader ">
+                      <div class="loanrequesttitle">
+                         <h4> Recent Transactions </h4>
+                      </div>
+                      <div class="loanrequestbutton">
+                           <button onclick="openModal(66)">New Loan +</button>
+                      </div>
+                  </div>
+                  <br>
+              </div>
+              <p class="card-text" style="width: fit-content;">
+                This shows the most recent activities across your Apexco finance account.
+              </p>
+
+              <br>
+
+
+              <div class="loantablediv" id="step3Target">
+
+
+
+              <div class="mustscroll activityscroll">
+
+               {%for a in transfers  %}
+                <div class="activitybox">
+                  <div class="activitydemo ">
+                    <div class="activitylogo">
+                      {%if a.type == 'credit' %}
+                      <div class="svs" style="color:green;  border: 1px solid green;">
+                        {%else%}
+                          <div class="svs" style="color:red;     border: 1px solid red;">
+                            {%endif%}
+                        <span class="material-symbols-outlined">
+                          account_balance_wallet
+                          </span>
+                      </div>
+                    </div>
+                    <div class="activitytext">
+                      <div class="activitytoptext">
+{%if a.type == 'credit' %}
+                        Deposit From Apexco <b style="color: black;">{{a.reference}}</b>
+{%else%}
+                        Transfer IFO {{paymentto}} <b style="color: black;">{{a.reference}}</b>
+                        {%endif%}
+                      </div>
+                      <div class="activitybottomtext">
+                        <small>{{ a.updated_at|timesince }} ago</small>
+                      </div>
+                                    <div class="activitybottomtext hol"  onclick="location.href='{%url 'completetransaction' a.reference%}';" >
+                        <small>View Details</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="activityview card-subtitle hos" onclick="location.href='{%url 'completetransaction' a.reference%}';">View Details</div>
+                </div>
+{%endfor%}
+              </div>
+
+              </div>
+
+              </article>
+
+{% endblock %}

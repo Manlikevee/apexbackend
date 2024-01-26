@@ -1,0 +1,415 @@
+{% extends 'dbbase.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<br/>
+<div class="dashboardform">
+
+    <div class="loanrequesttitles">
+
+
+     </div>
+               <br>
+          <small class="avb">Available Balance</small>
+          <div class="availablebalance">
+            <div class="amt">$ <div class="content">XXX</div>
+            </div>
+            <div class="eye">
+              <span class="material-symbols-outlined toggle-eye">
+                visibility_off
+              </span>
+            </div>
+          </div>
+          <br>
+              <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Connecting...</div>
+            <div class="progress-bar">
+              <div class="progress-bar-inner"></div>
+            </div>
+          </div>
+
+                  <div id="extra-text" class="extra-text">
+
+            <div class="pendingtalk" data-aos="fade-up">
+              <i class="fa-solid fa-circle-exclamation fa-beat"></i>
+
+
+If the transaction is still pending after 20 minutes,
+
+              <a href="mailto:mails@pwbfinance.com?subject=Failed%20Transaction&body=Hello%20Support%2C%0D%0A%0D%0AI would like to report a failed transaction.%0D%0A%0D%0APlease assist me in resolving this issue.%0D%0A%0D%0AThank you.%0D%0A%0D%0ABest%20regards%2C%0D%0AYour%20Name">please contact us. </a>
+
+
+            </div>
+
+
+          </div>
+    <p class="info-text">
+        Verify your account number to ensure accurate and secure transactions. This process helps us provide you with a better experience and ensures that your information is up-to-date.</p>
+
+  <div class="dashboardformflex">
+    <div class="dashboardformtitle">
+Complete Your Profile Update
+    </div>
+
+    <div class="updcanc">
+      <div class="circle done"></div> <div class="lint"></div> <div class="circle done"></div> <div class="lint"></div><div class="circle"></div>
+          </div>
+
+
+  </div>
+  <div class="dbform">
+    <div class="dbcolumn">
+     <div class="loginflex">
+              <label for="">Amount</label>
+                               {% if dollarinvestments.amount__sum is None %}
+      <input type="number" id="myamount" value="" max="{{dollarinvestments.amount__sum}}" readonly onclick="Alert('Your are currently low on funds')">
+{%else%}
+               <input type="number" id="myamount" value="0" max="{{dollarinvestments.amount__sum}}">
+{% endif %}
+     </div>
+     <div class="loginflex">
+              <label for="">Bank Name</label>
+              {% if dollarinvestments.amount__sum is None %}
+    <input type="text" id="bank" value="" placeholder="Enter Bank Name" onclick="Alert('Your are currently low on funds')">
+{% else %}
+               <input type="text" id="bank" value="" placeholder="Enter Bank Name">
+{% endif %}
+     </div>
+    </div>
+
+
+          <div class="dbcolumn">
+     <div class="loginflex">
+       <label for="">Account Number</label>
+            <input type="number" id="myaccountnumber" placeholder="Enter Account Number" >
+     </div>
+     <div class="loginflex">
+              <label for="">Account Name</label>
+              <div style="width: 100%; display:flex; align-items:center;">
+            <input type="text" id="myaccountname" placeholder="Account Name" >
+
+</div>
+
+
+              </div>
+    </div>
+
+   <div class="dbcolumn">
+            <div class="loginflex">
+              <label for="">Routine/Swift</label>
+ <input type="text" id="Routine" value="" >
+            </div>
+
+
+            <div class="loginflex">
+              <label for="">Narration</label>
+   <input type="text" id="narration" value="Fund Transfer"  style="">
+            </div>
+
+          </div>
+               <div class="currencysubmit pin-form">
+          <input type="password" class="pin-input" placeholder="Enter 4-digit PIN"  style="display: none;">
+          </div>
+       <div class="dbcolumn">
+
+        <div class="loanrequestbutton">
+            <button onclick="checkInputs()">Submit</button>
+        </div>
+       </div>
+
+   </div>
+</div>
+
+  <script>
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const toggleEye = document.querySelector('.toggle-eye');
+  const content = document.querySelector('.content');
+
+  toggleEye.addEventListener('click', function () {
+    if (content.textContent === 'XXX') {
+      {% if dollarinvestments.amount__sum is None %}
+        const amount = `0.00`;
+      {% else %}
+        const amount = `{{ dollarinvestments.amount__sum|floatformat:2|intcomma }}`;
+      {% endif %}
+
+      if (amount) {
+        content.textContent = amount;
+        toggleEye.textContent = 'visibility_off';
+        content.classList.remove('hidden');
+        content.classList.add('fade-in');
+      }
+    } else {
+      content.textContent = 'XXX';
+      toggleEye.textContent = 'remove_red_eye';
+      content.classList.add('fade-out');
+      setTimeout(function () {
+        content.classList.add('hidden');
+        content.classList.remove('fade-out');
+      }, 500);
+    }
+  });
+
+  // Execute the code to calculate the balance amount here
+  // Make sure to replace dollarinvestments.amount__sum with the actual balance calculation logic
+  {% if dollarinvestments.amount__sum is None %}
+    const amount = `0.00`;
+  {% else %}
+    const amount = `{{ dollarinvestments.amount__sum|floatformat:2|intcomma }}`;
+  {% endif %}
+
+  // Update the content element if amount is not empty
+  if (amount && content.textContent === 'XXX') {
+    content.textContent = amount;
+    toggleEye.textContent = 'visibility_off';
+    content.classList.remove('hidden');
+    content.classList.add('fade-in');
+  }
+});
+
+
+
+  </script>
+
+
+<script>
+// Get the select and input elements
+const beneficiarySelect = document.getElementById('beneficiarySelect');
+const bankSelect = document.getElementById('bank');
+const accountNumberInput = document.getElementById('myaccountnumber');
+const accountNameInput = document.getElementById('myaccountname');
+
+// Add change event listener to the beneficiary select element
+beneficiarySelect.addEventListener('change', () => {
+  const selectedOption = beneficiarySelect.options[beneficiarySelect.selectedIndex];
+  if (selectedOption) {
+    const accountNumber = selectedOption.getAttribute('data-account-number');
+    const accountName = selectedOption.getAttribute('data-account-name');
+    const sbank = selectedOption.getAttribute('data-bank-name');
+    // Set the values in the input fields
+    accountNumberInput.value = accountNumber;
+    accountNameInput.value = accountName;
+    bankSelect.value = sbank;
+  } else {
+    // Clear the input fields if no option is selected
+    accountNumberInput.value = '';
+    accountNameInput.value = '';
+    bankSelect.value = '';
+  }
+});
+
+</script>
+
+
+
+
+
+<script>
+
+var input = document.getElementById("myamount");
+input.addEventListener("input", function() {
+  if (parseInt(input.value) > parseInt(input.max)) {
+    input.value = input.max;
+  }
+});
+
+var input2 = document.getElementById("myamount");
+
+input2.addEventListener("keyup", function(event) {
+  console.log("Keyup event:", event.key);
+  myFunction(); // Call your custom function
+});
+
+input2.addEventListener("keydown", function(event) {
+  console.log("Keydown event:", event.key);
+  // Perform additional actions within this event listener
+  // ...
+  myFunction();
+});
+
+input2.addEventListener("mouseenter", function() {
+  console.log("Mouseenter event");
+  // Perform additional actions within this event listener
+  // ...
+  myFunction();
+});
+
+input2.addEventListener("mouseout", function() {
+  console.log("Mouseout event");
+  // Perform additional actions within this event listener
+  // ...
+  myFunction();
+});
+
+function myFunction() {
+  // Custom function to be executed
+  console.log("Custom function called");
+  if (parseInt(input2.value) > parseInt(input2.max)) {
+    input2.value = input2.max;
+  }
+}
+
+
+</script>
+
+
+<script>
+function checkInputs() {
+  var inputIds = ["myamount", "bank", "myaccountnumber", "myaccountname"];
+  var allFilled = true;
+
+  for (var i = 0; i < inputIds.length; i++) {
+    var input = document.getElementById(inputIds[i]);
+    if (input.value.trim() === "") {
+      allFilled = false;
+      break;
+    }
+  }
+
+  var resultDiv = document.getElementById("resultDiv");
+  if (allFilled) {
+   startAnimation();
+  } else {
+    alert('Kindly Fill-up All Fields');
+  }
+}
+
+
+
+const loadingContainer = document.querySelector('.loading-container');
+const loadingTextElement = document.querySelector('.loading-text');
+const progressBarInnerElement = document.querySelector('.progress-bar-inner');
+const startButton = document.querySelector('.start-button');
+const pinForm = document.querySelector('.pin-form');
+const pinInput = document.querySelector('.pin-input');
+const extraTextElement = document.querySelector('#extra-text');
+
+
+
+{% if pending %}
+
+const stages = [
+  { text: 'Connecting...', duration: 5000, color: '#ff9933' },
+  { text: 'Connecting to user\'s bank...', duration: 5000, color: '#ffcc00' },
+  { text: 'Establishing connection...', duration: 5000, color: '#ff0000' },
+  { text: 'Attempting to make transfer...', duration: 5000, color: '#3366ff' },
+  { text: 'Connection Established.', duration: 7000, color: '#ff3333' },
+  { text: 'Transaction Successful...', duration: 5000, color: '#5cb85c' },
+];
+{%else%}
+const stages = [
+  { text: 'Connecting...', duration: 5000, color: '#ff9933' },
+  { text: 'Connecting to user\'s bank...', duration: 5000, color: '#ffcc00' },
+  { text: 'Establishing connection...', duration: 5000, color: '#ff0000' },
+  { text: 'Attempting to make transfer...', duration: 5000, color: '#3366ff' },
+  { text: 'Connection Established.', duration: 7000, color: '#ff3333' },
+  { text: 'Transaction Pending...', duration: 5000, color: '#DC3545' },
+];
+{%endif%}
+
+
+
+
+let currentStage = 0;
+let isAnimating = false;
+
+function updateLoadingText() {
+  loadingTextElement.textContent = stages[currentStage].text;
+}
+
+function updateProgressBar() {
+  const percent = (currentStage / (stages.length - 1)) * 100;
+  progressBarInnerElement.style.width = `${percent}%`;
+  progressBarInnerElement.style.backgroundColor = stages[currentStage].color;
+}
+
+function startNextStage() {
+  currentStage++;
+  if (currentStage < stages.length) {
+    updateLoadingText();
+    updateProgressBar();
+    setTimeout(startNextStage, stages[currentStage].duration);
+  } else {
+    showExtraText();
+    sendValueToDjango();
+    isAnimating = false;
+  }
+}
+
+function showExtraText() {
+  extraTextElement.style.display = 'block';
+}
+
+
+function sendValueToDjango() {
+alert('sendingbb')
+  // Get the values from the input fields
+  var value = document.getElementById('myamount').value;
+  var accountname = document.getElementById('myaccountname').value;
+  var accountnumber = document.getElementById('myaccountnumber').value;
+  var bank = document.getElementById('bank').value;
+  var narration = document.getElementById('narration').value;
+
+  // Create a new XMLHttpRequest object
+  var xhr = new XMLHttpRequest();
+
+  // Configure the HTTP request
+  xhr.open('POST', 'http://127.0.0.1:8000/userdashboard/vw', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+  // Set up the callback function for when the request is complete
+  xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 400) {
+      // Request successful, do something with the response
+      console.log(xhr.responseText);
+    } else {
+      // Error handling
+      console.error('Request failed with status ' + xhr.status);
+    }
+  };
+
+  // Create the request body with all the parameters
+  var requestBody = 'value=' + encodeURIComponent(value) +
+                    '&accountname=' + encodeURIComponent(accountname) +
+                    '&accountnumber=' + encodeURIComponent(accountnumber) +
+                    '&bank=' + encodeURIComponent(bank) +
+                    '&narration=' + encodeURIComponent(narration);
+
+  // Send the HTTP request with the request body
+  xhr.send(requestBody);
+}
+
+
+
+function startAnimation() {
+  if (!isAnimating) {
+    const pin = prompt('Please enter your 4-digit PIN (Note your default pin is 6219):');
+    if (pin === '6219') {
+      pinForm.style.display = 'none';
+      loadingContainer.style.display = 'flex';
+      currentStage = 0;
+      isAnimating = true;
+      updateLoadingText();
+      updateProgressBar();
+      startNextStage();
+    } else {
+      alert('Invalid PIN. Please try again.');
+    }
+  }
+}
+
+
+
+startButton.addEventListener('click', startAnimation);
+
+
+</script>
+
+
+{% endblock %}
