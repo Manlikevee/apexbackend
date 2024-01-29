@@ -9,18 +9,18 @@
 
                 <div class="links" id="middlelinks">
                     <a href="{% url 'userdashboard' %}" class="activated">Dashboard</a>
-                    <a href="dashboard.html">Transactions</a>
-                    <a href="">Contact Us</a>
+                    <a href="{% url 'transactions' %}">Transactions</a>
+                    <a href="#">Contact Us</a>
 
                     <div class="hideme">
-                        <a href="login.html" class="blackboton"> Logout</a>
+                        <a href="{% url 'logout_view' %}" class="blackboton"> Logout</a>
 
                     </div>
 
                 </div>
 
-                <div class="login getstarteds" style="width: fit-content;" onclick="window.location.href = 'login.html'">
-                   Get Started
+                <div class="login getstarteds" style="width: fit-content;" onclick="window.location.href = '{% url 'logout_view' %}'">
+                    Logout
                 </div>
 
                 <div class="navtoggle" onclick="navtoggler()">

@@ -54,8 +54,15 @@ Congratulations! The status of this transaction is now complete. We are pleased 
                         <div class="plandetail gridloancontent card-subtitle">
                                   {%if j.bankdetails.data.accountname%}
       {{j.bankdetails.data.accountname}}
+      
+      {%elif j.type == 'credit' %}
+      
+      {{j.requestuser.first_name}} {{j.requestuser.last_name}}
+
       {%else%}
+      
       {{request.user.get_full_name}}
+      
       {%endif%}
                         </div>
                       </div>
@@ -109,7 +116,7 @@ Congratulations! The status of this transaction is now complete. We are pleased 
 
 
 
-            <div class="daysleft">
+            <!-- <div class="daysleft">
               <div class="daysflex">
                 <div class="left">Days Left</div>
                 <div class="right">40 days</div>
@@ -117,8 +124,8 @@ Congratulations! The status of this transaction is now complete. We are pleased 
               <div class="progress-container">
                 <progress id="progress" value="120" max="360"></progress>
               </div>
-            </div>
-                <br>
+            </div> -->
+           
 
 
 

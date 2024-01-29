@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,9 +137,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'pwbfinance.com'
-DEFAULT_FROM_EMAIL = 'mails@pwbfinance.com'
+EMAIL_HOST = 'apexcowealth.com'
+DEFAULT_FROM_EMAIL = 'mails@apexcowealth.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'mails@pwbfinance.com'
+EMAIL_HOST_USER = 'mails@apexcowealth.com'
 EMAIL_HOST_PASSWORD = '@login_required()'

@@ -4,6 +4,21 @@
 {% block content %}
 
 <style>
+
+
+@media screen and (max-width:1000px) {
+        .logincontainer{
+            flex-direction: column;
+        }
+        .loginform{
+            width: 90%;
+        }
+        .loginimg{
+            width: 100%;
+            padding: 65px;
+        }
+    }
+
   .ini{
     width: 100%;
 }
@@ -19,6 +34,10 @@
 header{
   display: none;
 }
+
+.myfoot{
+  display: none;
+}
 </style>
 <div class="logincontainer">
     <div class="loginimg">
@@ -30,7 +49,7 @@ header{
     </div>
     <div class="logindata">
 <div class="loginform">
-  <img src="{% static 'Group 39810.png' %}" alt="">
+  <img src="{% static 'Group 39810.png' %}" alt="" onclick="window.location.href = '{% url 'home' %}'">
   <br>
   <div class="logintitle">
     Sign in to Explore Financial Opportunities

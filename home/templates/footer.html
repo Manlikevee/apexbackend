@@ -1,4 +1,7 @@
-      <br />
+    
+       {% load static %}
+    <div class="myfoot">
+    <br />
       <div class="newsletter">
         <div class="container">
           <div class="newsletteersub">
@@ -20,15 +23,15 @@
         <br />
         <div class="bottom">
           <div class="bottomlogo">
-            <div class="logo"><img src="Group 39810.png" alt="" />ApexCo</div>
+            <div class="logo"><img src="{% static 'Group 39810.png' %}" alt="" />ApexCo</div>
           </div>
           <div class="bottomlinks">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
+            <a href="/">Home</a>
+            <a href="{% url 'aboutus' %}">About</a>
             <a href="">Products</a>
           </div>
           <div class="bottomlocal">
-            <div class="email">hello@skillbirdge.com</div>
+            <div class="email">mails@apexcowealth.com</div>
             <div class="phone">+91 91813 23 2309</div>
             <div class="address">Somewhere in the World</div>
           </div>
@@ -37,7 +40,9 @@
         <div class="line"></div>
         <br />
         <div class="copyright">
-          <div class="copytext">©All right reserved • Augustine Ifenna</div>
-          <div class="copydate">2024 Terms and condition</div>
+          <div class="copytext">©All right reserved • ApexCo</div>
+          <div class="copydate">2024</div>
         </div>
       </div>
+
+    </div>

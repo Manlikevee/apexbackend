@@ -19,7 +19,6 @@ urlpatterns = [
     path('userspage', userspage, name='userspage'),
     path('send_email', send_email, name='send_email'),
     path('trans', trans, name='tt'),
-
-
+    path('addfunds', addfunds, name='addfunds')
 
 ]

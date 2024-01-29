@@ -3,13 +3,17 @@
       <div class="container">
         <div class="logo"><img src="{% static 'Group 39810.png' %}" alt="" />ApexCo</div>
         <div class="links">
-        <a href="index.html">Home</a>
+        <a href="/">Home</a>
         <a href="{% url 'aboutus' %}">About</a>
-                   <a href="about.html">Services</a>
+              
 
           <a href="">Contact Us</a>
 
         </div>
+        {%if request.user %}
         <div class="signin"><a href="{% url 'userdashboard' %}" class="mybtn">Get Started</a></div>
+        {%else%}
+        <div class="signin"><a href="{% url 'login' %}" class="mybtn">Get Started</a></div>
+        {%endif%}
       </div>
     </header>

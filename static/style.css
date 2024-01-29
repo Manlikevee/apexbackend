@@ -325,7 +325,7 @@ z-index: 999;
     margin: auto;
     width: 100%;
  min-height: 100vh;
-    background-image: url(backgroundpattern-c0621009.png);
+    background-image: url(/static/backgroundpattern-c0621009.png);
     background-size: cover;
     background-position: right;
     background-repeat: repeat;
@@ -397,6 +397,7 @@ line-height: 134.023%; /* 21.444px */
     border-radius: 7px;
 background: #023047;
 padding: 14px 17px;
+cursor: pointer;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -659,7 +660,7 @@ padding: 15px;
     padding: 50px;
     border-radius: 20px;
 background: var(--color, #627EEA);
-background-image: url('map (3).png');
+background-image: url('/static/map(3).png');
 background-position: right;
 background-repeat: no-repeat;
 display: flex;
@@ -749,7 +750,7 @@ letter-spacing: 0.36px;
     margin-top: 10px;
     width: 100%;
     padding: 47px;
-    background-image: url('map-base\ \(1\).png');
+    background-image: url('/static/map-base(1).png');
     background-size: 49%;
 display: flex;
 gap:10px;
@@ -971,6 +972,19 @@ color: #023047;
     .aboutflex{
         flex-direction: column;
     }
+
+        .logincontainer{
+            flex-direction: column;
+        }
+        .loginform{
+            width: 90%;
+        }
+        .loginimg{
+            width: 100%;
+            padding: 65px;
+            height: 50%;
+        }
+ 
 
     .solutiontopgrid {
         display: grid;
@@ -1960,3 +1974,18 @@ background: #EDDEDE;
         display: grid;
     }
 
+
+
+    @media screen and(max-width:1000px) {
+        .logincontainer{
+            flex-direction: column;
+        }
+        .loginform{
+            width: 90%;
+        }
+        .loginimg{
+            width: 100%;
+            padding: 65px;
+            height: 50%;
+        }
+    }

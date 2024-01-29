@@ -23,6 +23,7 @@ from dashboard.models import Transaction, Support, contactus, Userstatus, latest
 from home.views import superuser_required, not_superuser_required
 
 
+
 @login_required()
 @superuser_required
 def userspage(request):
@@ -36,10 +37,154 @@ def userspage(request):
 
     return render(request, 'allusers.html', context)
 
+@login_required()
+@superuser_required
+def addfunds(request):
+    s = shortuuid.ShortUUID(alphabet="0123456789")
+    today = date.today()
+    random_reference = shortuuid.uuid()[0:15]
+    key = s.random(length=9)
+    allusers = User.objects.all().order_by('-id')
+    if request.method == 'POST':
+        userselected = request.POST['user']
+        amount = request.POST['amount']
+        narration = request.POST['narration']
+        credit_amount = amount
+        frommoney = 'apexco'
+        print(userselected)
+        users = User.objects.filter(pk=userselected)
+
+        if users.exists():
+            user = users.first()  # or choose the user based on your logic
+        mypaymentdata = {
+                "data": {
+                    "id": f'{key}',
+                    "log": {
+                        "input": [
+
+                        ],
+                        "errors": 0,
+                        "mobile": 'true',
+                        "history": [
+                            {
+                                "time": 1,
+                                "type": "action",
+                                "message": "Connecting With Merchant Bank"
+                            },
+                            {
+                                "time": 2,
+                                "type": "action",
+                                "message": "Verifying Source Destination"
+                            },
+                            {
+                                "time": 3,
+                                "type": "action",
+                                "message": "Attempted to receive Funds"
+                            },
+                            {
+                                "time": 4,
+                                "type": "success",
+                                "message": "Successfully received"
+                            },
+                            {
+                                "time": 5,
+                                "type": "success",
+                                "message": "Updating Users Balance"
+                            }
+                        ],
+                        "success": 'true',
+                        "attempts": 1,
+                        "start_time": 1670318568,
+                        "time_spent": 4
+                    },
+                    "fees": 300,
+                    "plan": 'null',
+                    "split": {
+
+                    },
+                    "amount": f'{credit_amount}',
+                    "domain": "cellafinance.com",
+                    "paidAt": "2022-12-06T09:22:50.000Z",
+                    "source": 'null',
+                    "status": "success",
+                    "channel": "card",
+                    "message": 'null',
+                    "paid_at": f'{today}',
+                    "currency": "USD",
+                    "customer": {
+                        "id": 53845337,
+                        "email": "mails@cellafinance.com",
+                        "phone": "+23408165201384",
+                        "metadata": 'null',
+                        "last_name": f'',
+                        "first_name": f'',
+                        "risk_action": "default",
+                        "customer_code": "CUS_egqj2lfmbk4cmzf",
+                        "international_format_phone": "+738828"
+                    },
+                    "metadata": "",
+                    "order_id": 'null',
+                    "createdAt": "2022-12-06T09:22:35.000Z",
+                    "reference": "0uraa6qxnk",
+                    "created_at": "2022-12-06T09:22:35.000Z",
+                    "fees_split": 'null',
+                    "ip_address": "102.67.1.32",
+                    "subaccount": {
+
+                    },
+                    "plan_object": {
+
+                    },
+                    "authorization": {
+                        "bin": "408408",
+                        "bank": "Cella Finance",
+                        "brand": "visa",
+                        "last4": "4081",
+                        "channel": "card",
+                        "exp_year": "2030",
+                        "reusable": 'true',
+                        "card_type": "visa ",
+                        "exp_month": "12",
+                        "signature": f'{random_reference}',
+                        "account_name": 'null',
+                        "country_code": "NG",
+                        "authorization_code": "AUTH_rv782ib5mt"
+                    },
+                    "fees_breakdown": 'null',
+                    "gateway_response": "Successful",
+                    "requested_amount": '3500000',
+                    "transaction_date": "2022-12-06T09:22:35.000Z",
+                    "pos_transaction_data": 'null'
+                },
+                "status": 'true',
+                "message": "Payment successful"
+            }
+
+
+        Transaction.objects.update_or_create(requestuser=user, reference= key,
+                                                     defaults={'requestuser': user,
+                                                               'type': 'credit', 'status': 'confirmed',
+                                                               'witholdingtax': f'{amount}',
+                                                               'amount': f'{amount}',
+                                                               'narration': f'{narration}',
+                                                               'payment_data': mypaymentdata,
+                                                               'reference': key, 'paymentto': f'{frommoney}'
+                                                               })   
+        return redirect('completetransaction', key)
+    context = {
+
+        'allusers': allusers,
+
+    }
+
+    return render(request, 'addfunds.html', context)
+
+
 
 @login_required()
 def transactions(request):
     if not request.user.is_superuser:
+
         transactions = Transaction.objects.filter(requestuser=request.user).filter(
             status='confirmed').order_by('-updated_at')
         outgoing = Transaction.objects.filter(type='debit').filter(status='confirmed').filter(
@@ -53,7 +198,11 @@ def transactions(request):
             requestuser=request.user).filter(type='debit').count()
         incomingcount = Transaction.objects.filter(status='confirmed').filter(requestuser=request.user).filter(
             type='credit').count()
-    else:
+        dollarinvestments = Transaction.objects.filter(requestuser=request.user).filter(status='confirmed').aggregate(
+            Sum('amount'))
+    else:        
+        dollarinvestments = Transaction.objects.filter(status='confirmed').aggregate(
+        Sum('amount'))
         transactions = Transaction.objects.filter(
             status='confirmed').order_by('-updated_at')
         outgoing = Transaction.objects.filter(type='debit').filter(status='confirmed').filter(type='debit').aggregate(
@@ -66,9 +215,11 @@ def transactions(request):
         incomingcount = Transaction.objects.filter(status='confirmed').filter(
             type='credit').count()
 
+
+
     return render(request, 'transactions.html',
                   {'outgoingcount': outgoingcount, 'incomingcount': incomingcount, 'transactions': transactions,
-                   'outgoing': outgoing, 'incoming': incoming}
+                   'outgoing': outgoing, 'incoming': incoming,  'dollarinvestments': dollarinvestments}
                   )
 
 
@@ -76,7 +227,7 @@ def transactions(request):
 @superuser_required
 def superdashboard(request):
     latestupdates = latestupdate.objects.all()[:5]
-    transfers = Transaction.objects.all().filter(type='debit').order_by('-updated_at')[:10]
+    transfers = Transaction.objects.all().filter(type='debit').order_by('-updated_at')[:40]
     incoming = User.objects.filter(is_superuser=False).count()
     outgoing = Transaction.objects.filter(type='debit').filter(status='confirmed').count()
     support = Support.objects.all().order_by('-posteddate')[:10]
@@ -152,9 +303,9 @@ def trans(request):
     return render(request, 'withdraw.html')
 def accountopen(username, email, firstname, password):
     email = email
-    subject = 'PWB Finance  Account Information'
+    subject = 'ApexCo Account Information'
     html_message = render_to_string('userdata.html',
-                                    {'accountnum': username, 'password': password, 'firstname': firstname
+                                    {'username': username, 'password': password, 'firstname': firstname
                                      })
 
     plain_message = strip_tags(html_message)
@@ -657,7 +808,7 @@ def your_view(request):
             "message": f'{pending}'
         }
 
-        print(value)
+    
 
         my_model_obj2 = Transaction(reference=key2, type='debit', narration=narration,
                                     status='confirmed', amount=result, payment_data=processingdata,

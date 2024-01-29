@@ -1,0 +1,65 @@
+{% extends 'dbbase.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<div class="dashboardform">
+
+    <div class="loanrequesttitles">
+        <h4> Add Funds To Users Account </h4>
+     </div>
+    
+    <p class="info-text">
+        With this system, administrators can effortlessly add any desired amount to a user's balance, triggering a real-time credit alert on the user's dashboard and sending an email notification.</p>
+
+  <div class="dashboardformflex">
+    <div class="dashboardformtitle">
+        Add Funds to Users Account
+    </div>
+
+    <div class="updcanc">
+      <div class="circle done"></div> <div class="lint"></div> <div class="circle done"></div> 
+      <div class="lint"></div><div class="circle"></div>
+          </div>
+
+      
+  </div>
+  <div class="dbform">
+    <form action="" method="POST" style="
+width:100%; height: 100%;">
+        {% csrf_token %}
+    <div class="dbcolumn">
+     <div class="loginflex">
+         <label for="">Select User</label>
+      <select name="user" id="">
+        {%for a in allusers %}
+        <option value="{{a.id}}">{{a.first_name}} {{a.last_name}}</option>
+        {%endfor%}
+      </select>
+     </div>
+     <div class="loginflex">
+         <label for="">Amount</label>
+         <input type="number" name="amount" id="id_amount" placeholder="Enter Your desired amount">
+     </div>
+    </div>
+
+    <div class="dbcolumn">
+        <div class="loginflex">
+            <label for="">Narration</label>
+            <input type="text" name="narration" id="" placeholder="" value="ApexCo">
+        </div>
+
+       </div>
+
+
+       <div class="dbcolumn">
+        <div class="loanrequestbutton">
+            <button type="submit">Submit</button>
+        </div>
+       </div>
+    </form>
+   </div>
+</div>
+
+
+{% endblock %}

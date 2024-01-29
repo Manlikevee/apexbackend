@@ -4,14 +4,18 @@
 {% block content %}
 
 <div class="usersname">
-  <h4> Welcome Oluwatosin</h4>
+  <h4> Welcome {{request.user.first_name}} {{request.user.last_name}}</h4>
 </div>
 
 <div class="dashboardcard" >
     <div class="dashcard" id="step1Target">
         <div class="dashcardheader">
            <div class="dashamount">
-            Loan Amount
+         {%if request.user.is_superuser%}
+            Total Amount Withdrawn
+            {%else%}
+            Balance
+            {%endif%}
            </div>
            <div class="dashtoggle"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M8 3.25C8.41421 3.25 8.75 2.91421 8.75 2.5C8.75 2.08579 8.41421 1.75 8 1.75C7.58579 1.75 7.25 2.08579 7.25 2.5C7.25 2.91421 7.58579 3.25 8 3.25Z" stroke="#6D201B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -21,12 +25,17 @@
         </div>
 
         <div class="dashvalue">
-            <h3>200,000.00</h3>
+            <h3>
+            {% if dollarinvestments.amount__sum is None %}
+              0.00
+            {% else %}
+            {{ dollarinvestments.amount__sum|floatformat:2|intcomma }}
+            {% endif %}</h3>
         </div>
 
         <div class="dashfooter">
-            <div class="numberofloans">Active Loans</div>
-            <div class="totalnum">23</div>
+            <div class="numberofloans">Transaction Count</div>
+            <div class="totalnum"></div>
         </div>
     </div>
 
@@ -36,32 +45,33 @@
 <div class="loanrequests" id="step2Target">
     <div class="loanrequestheader">
         <div class="loanrequesttitle">
-           <h4> Loan Requests </h4>
+           <h4> All Transactions </h4>
         </div>
         <div class="loanrequestbutton">
-             <button>New Loan +</button>
+        
         </div>
     </div>
 </div>
 
 <div class="loantablediv" id="step3Target">
     <div class="loandiv">
-        <div class="loantype loandef">Loan Type</div>
-        <div class="loantype loandef def2">Reference</div>
-        <div class="loanamount loandef def3">Amount</div>
+        <div class="loantype loandef">Type</div>
+        <div class="loanamount loandef def2">Amount</div>
+        <div class="loantype loandef def3">Reference</div>
         <div class="loanstatus loandef def4">Status</div>
-        <div class="loanaction loandef loanend">Action</div>
+  
     </div>
     <div class="mustscroll">
-        <div class="loandiv loandivdata" onclick="openModal(1)">
-            <div class="loantype loandef">Term Loan</div>
-            <div class="loantype loandef def2">dnnxnu373hns</div>
-            <div class="loanamount loandef def3">N900,000</div>
-            <div class="loanstatus loandef def4"><div class="spa"></div> Pending Approval</div>
-            <div class="loanaction loandef loanend">View</div>
+      {%for a in transactions %}
+        <div class="loandiv loandivdata" onclick="location.href='{%url 'completetransaction' a.reference%}';">
+            <div class="loantype loandef">{{a.type}}</div>
+            <div class="loanamount loandef def2">${{a.amount|floatformat:2|intcomma}}</div>
+            <div class="loantype loandef def3">{{a.reference}}</div>
+            <div class="loanstatus loandef def4"><div class="spa"></div> {{a.status}}</div>
+
         </div>
 
-
+        {%endfor%}
 
 
     </div>
@@ -78,7 +88,7 @@
       <div class="loaninfo">
         <span class="close" onclick="closeModal()">&times;</span>
           <div class="loanrequesttitles">
-              <h4> Loan Information </h4>
+              <h4> Recent Transactions </h4>
            </div>
 
            <div class="loanstatusbox">

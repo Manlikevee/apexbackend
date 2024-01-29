@@ -1,0 +1,174 @@
+{% extends 'dbbase.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<div class="usersname">
+    <h4> Welcome Admin</h4> 
+  </div>
+  
+  <div class="dashboardcard" >
+      <div class="dashcard" id="step1Target">
+          <div class="dashcardheader">
+             <div class="dashamount">
+              TOTAL WITHDRAWALS
+             </div>
+             <div class="dashtoggle"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 3.25C8.41421 3.25 8.75 2.91421 8.75 2.5C8.75 2.08579 8.41421 1.75 8 1.75C7.58579 1.75 7.25 2.08579 7.25 2.5C7.25 2.91421 7.58579 3.25 8 3.25Z" stroke="#6D201B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 8.75C8.41421 8.75 8.75 8.41421 8.75 8C8.75 7.58579 8.41421 7.25 8 7.25C7.58579 7.25 7.25 7.58579 7.25 8C7.25 8.41421 7.58579 8.75 8 8.75Z" stroke="#6D201B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 14.25C8.41421 14.25 8.75 13.9142 8.75 13.5C8.75 13.0858 8.41421 12.75 8 12.75C7.58579 12.75 7.25 13.0858 7.25 13.5C7.25 13.9142 7.58579 14.25 8 14.25Z" stroke="#6D201B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></div>
+          </div>
+  
+          <div class="dashvalue">
+              <h3>
+             $
+                    {% if dollarinvestments.amount__sum is None %}
+                      0.00
+                    {% else %}
+                    {{ dollarinvestments.amount__sum|floatformat:2|intcomma }}
+                    {% endif %}
+
+              </h3>
+          </div>
+  
+          <div class="dashfooter">
+              <div class="numberofloans">Count</div>
+              <div class="totalnum">23</div>
+          </div>
+      </div>
+  <style>
+    .dashboardcard{
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .dcardsmall{
+      height: 99px ;
+      box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.05);
+      padding: 10px;
+      min-width: 99px;
+      gap: 6px;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      align-items: center;
+      cursor: pointer;
+      justify-content: center;
+      border-radius: 4px;
+    }
+  
+  
+  
+  
+  .dcardsmall ion-icon{
+    font-size: 18px;
+   
+  
+  
+  }
+    .dcardsmall .dashamount{
+      color: black;
+      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+    }
+  </style>
+      <a href="{%url 'register' %}" class="dcardsmall">
+        <ion-icon name="person-add-outline"></ion-icon>
+        
+        <div class="dashamount">
+     
+          Add User
+        </div>
+  
+        
+    </a>
+  
+    <a href="{%url 'addfunds' %}" class="dcardsmall">
+        <ion-icon name="cash-outline"></ion-icon>
+        
+        <div class="dashamount">
+     
+  
+  
+          Add Money
+        </div>
+  
+        
+    </a>
+  
+      
+  </div>
+
+
+  <br>
+
+  <article >
+      <div class="loanrequests " id="step2Target">
+        <div class="loanrequestheader ">
+            <div class="loanrequesttitle">
+               <h4> Recent Transactions </h4>
+            </div>
+            <div class="loanrequestbutton">
+        
+            </div>
+        </div>
+        <br>
+    </div>
+    <p class="card-text" style="width: fit-content;">
+      This shows the most recent activities across your Apexco finance account.
+    </p>
+
+    <br>
+
+
+    <div class="loantablediv" id="step3Target">
+
+
+
+    <div class="mustscroll activityscroll">
+
+     {%for a in transfers  %}
+      <div class="activitybox">
+        <div class="activitydemo ">
+          <div class="activitylogo">
+            {%if a.type == 'credit' %}
+            <div class="svs" style="color:green;  border: 1px solid green;">
+              {%else%}
+                <div class="svs" style="color:red;     border: 1px solid red;">
+                  {%endif%}
+              <span class="material-symbols-outlined">
+                account_balance_wallet
+                </span>
+            </div>
+          </div>
+          <div class="activitytext">
+            <div class="activitytoptext">
+{%if a.type == 'credit' %}
+              Deposit From Apexco <b style="color: black;">(${{a.amount|floatformat:2|intcomma}})</b>
+{%else%}
+              Transfer IFO {{paymentto}} <b style="color: black;">(${{a.amount|floatformat:2|intcomma}})</b>
+              {%endif%}
+            </div>
+            <div class="activitybottomtext">
+              <small>{{ a.updated_at|timesince }} ago</small>
+            </div>
+                          <div class="activitybottomtext hol"  onclick="location.href='{%url 'completetransaction' a.reference%}';" >
+              <small>View Details</small>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="activityview card-subtitle hos" onclick="location.href='{%url 'completetransaction' a.reference%}';">View Details</div>
+      </div>
+{%endfor%}
+    </div>
+
+    </div>
+
+    </article>
+
+
+{% endblock %}
