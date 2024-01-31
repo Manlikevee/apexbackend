@@ -973,18 +973,27 @@ color: #023047;
         flex-direction: column;
     }
 
-        .logincontainer{
-            flex-direction: column;
-        }
-        .loginform{
-            width: 90%;
-        }
-        .loginimg{
-            width: 100%;
-            padding: 65px;
-            height: 50%;
-        }
- 
+    .logincontainer{
+        flex-direction: column;
+    }
+    .loginform{
+        width: 90%;
+    }
+    .loginimg{
+        width: 100%;
+        padding: 65px;
+        height: 50%;
+    }
+    .loginimg {
+width: 100%;
+padding: 20px;
+height: 50%;
+}
+.logindata {
+
+padding: 10px;
+
+}
 
     .solutiontopgrid {
         display: grid;
@@ -1988,4 +1997,14 @@ background: #EDDEDE;
             padding: 65px;
             height: 50%;
         }
+        .loginimg {
+    width: 100%;
+    padding: 20px;
+    height: 50%;
+}
+    .logindata {
+
+    padding: 10px;
+ 
+}
     }
